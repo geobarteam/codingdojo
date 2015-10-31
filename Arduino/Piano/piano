@@ -1,6 +1,0 @@
-int buzzer=7;//set buzzer’s digital pin IO in control 
-void setup() 
-{   
-	pinMode(buzzer,OUTPUT);
-} 
-void loop() {   unsigned char i,j;//define i j   while(1)     {      for(i=0;i<80;i++)// Output a frequency of sound 

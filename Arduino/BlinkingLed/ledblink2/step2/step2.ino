@@ -1,10 +1,14 @@
- const int buttonPin = 2;     // the number of the pushbutton pin
+const int buttonPin = 2;     // the number of the pushbutton pin
  const int ledPin =  13;      // the number of the LED pin
 
 // variables will change:
 int ledState = LOW;
+int numberOfPushes = 0;
 
 void setup() {
+   // open a serial connection to display values
+   Serial.begin(9600);
+   
    // initialize the LED pin as an output:
    pinMode(ledPin, OUTPUT);
    // initialize the pushbutton pin as an input:
@@ -12,13 +16,43 @@ void setup() {
 }
 
 void loop() {
+  
    // read the state of the pushbutton value:
    int buttonState = digitalRead(buttonPin);
    
-   if (buttonState==HIGH){
-        ledState = !ledState;
-        digitalWrite(ledPin, ledState);
-   }
+   // debug
+   Serial.print("Ledstate:");
+   Serial.print(ledState);
+   Serial.print("-ButtonState:");
+   Serial.print(buttonState);
+   Serial.println("-");
 
-   delay(400);
+   if (ledState == LOW && buttonState==HIGH) 
+   {
+      on();
+   }
+   else if (ledState == HIGH && buttonState==HIGH) 
+   {
+      off();
+   }
+}
+
+void on(){
+  ledState = HIGH;
+  digitalWrite(ledPin,ledState);
+  delay(400);
+}
+
+void off()
+{
+  ledState = LOW;
+  digitalWrite(ledPin,ledState);
+  delay(400); 
+}
+
+void blink(){
+  digitalWrite(ledPin, HIGH);
+  delay(200);
+  digitalWrite(ledPin,LOW);
+  delay(200);
 }

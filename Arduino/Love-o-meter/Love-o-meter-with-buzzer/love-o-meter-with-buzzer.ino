@@ -58,7 +58,7 @@ void loop(){
   } // if the temperature rises more than 8 degrees, turn all LEDs on
   else if(temperature >= baselineTemp+8){
     setLights(HIGH, HIGH, HIGH);
-    beep();
+    beep(buzzerPin);
   }
   else { // if the current temperature is lower than the baseline
     setLights(LOW, LOW,LOW);
@@ -87,7 +87,7 @@ void setLights(bool light1, bool light2, bool light3)
   digitalWrite(4, light3);
 }
 
-void beep()
+void beep(int buzzerPin)
 {    
   for(int i=0;i<60;i++)// Output a frequency of sound 
   {

@@ -1,8 +1,4 @@
-/* Heavily based on http://ardx.org/src/circ/CIRC06-code.txt
- * and also http://ardx.org/src/circ/CIRC07-code.txt
- * Circuit information at http://www.oomlout.com/oom.php/products/ardx/circ-06 
- * and http://www.oomlout.com/oom.php/products/ardx/circ-07
- * may also help
+/*
  *
  * The calculation of the tones is made following the mathematical
  * operation:
@@ -33,6 +29,8 @@ int length = 1; // the number of notes
 char notes[] = { 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'C' }; // a space represents a rest
 int beats[] = { 1 };
 int tempo = 300;
+const float maxDistance = 2.0;
+const int PlayDuration = 200;
 
 void playTone(int tone, int duration) {
   for (long i = 0; i < duration * 1000L; i += tone * 2) {
@@ -81,7 +79,7 @@ void setup() {
 }
 
 void play(float distance){
-  float maxDistance = 2.0;
+  
   float lowLimit;
   lowLimit = maxDistance;
 
@@ -89,16 +87,14 @@ void play(float distance){
   Serial.print(distance);
 
   for (int i = 0; i < 8; i++) {
-    lowLimit = lowLimit - 0.25;
+    lowLimit = lowLimit - (maxDistance/8);
     if (distance < maxDistance && distance >= lowLimit){
       Serial.print(notes[i]);
-      playNote(notes[i], 200);
+      playNote(notes[i], PlayDuration);
       Serial.println("playnote:");
       Serial.print(notes[i]);
       return;
     }
-    
-
   }
 }
 
@@ -106,5 +102,5 @@ void loop() {
   float distance;
   distance = getDistance();
   play(distance);
-  delay(20);
+  delay(5);
 }

@@ -7,15 +7,15 @@
  *
  * where the different tones are described as in the table:
  *
- * note 	frequency 	period 	timeHigh
- * c 	        261 Hz 	        3830 	1915 	
- * d 	        294 Hz 	        3400 	1700 	
- * e 	        329 Hz 	        3038 	1519 	
- * f 	        349 Hz 	        2864 	1432 	
- * g 	        392 Hz 	        2550 	1275 	
- * a 	        440 Hz 	        2272 	1136 	
- * b 	        493 Hz 	        2028	1014	
- * C	        523 Hz	        1912 	956
+ * note   frequency   period  timeHigh
+ * c          261 Hz          3830  1915  
+ * d          294 Hz          3400  1700  
+ * e          329 Hz          3038  1519  
+ * f          349 Hz          2864  1432  
+ * g          392 Hz          2550  1275  
+ * a          440 Hz          2272  1136  
+ * b          493 Hz          2028  1014  
+ * C          523 Hz          1912  956
  *
  * http://www.arduino.cc/en/Tutorial/Melody
  */
@@ -24,6 +24,7 @@ int trigPin = 2;
 int echoPin = 3;
 int speakerPin = 13;
 int val = 0;
+int potPin = A0;
 
 int length = 1; // the number of notes
 char notes[] = { 'c', 'd', 'e', 'f', 'g', 'a', 'b', 'C' }; // a space represents a rest
@@ -48,6 +49,11 @@ void loop() {
   // detect distance to object
   float distance;
   distance = getDistance();
+  playDuration = getPlayDuration();
+
+   // for debugging
+  Serial.println("playDuration:");
+  Serial.print(playDuration);
 
   // for debugging
   Serial.println("distance:");
@@ -57,7 +63,7 @@ void loop() {
   play(distance);
 
   // needed for smooth experience
-  delay(10);
+  delay(5);
 }
 
 void playTone(int tone, int duration) {
@@ -129,3 +135,8 @@ void play(float distance){
     }
   }
 }
+
+int getPlayDuration(){
+    int potVal = analogRead(potPin); // read the value from the sensor
+    return potVal;
+  }
